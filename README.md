@@ -139,6 +139,8 @@ The following sequence of images shows the operation of my pipeline from the fil
 
 Here is an example of my pipeline's operation on a more challenging test image:
 
+![More challenging test image][testimage]
+
 ---
 
 ### Pipeline (video)
