@@ -56,8 +56,17 @@ extracted above.
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
 My function to apply filters and thresholds to create a binary image with suspected lane line pixels tagged as 1s is apply_filters(),
-at line 49 of functions.py. Within the processing pipeline, apply_filters is invoked at line 36 of findlines.py.  
+at line 49 of functions.py.  The binary output is produced by combining several filters as follows, schematically:
+
+lightness filter & ( ( gradient mag filter & gradient angle filter ) | saturation filter ).
+
 Please see functions.py for more details.
+
+Within the processing pipeline, apply_filters() is invoked at line 36 of findlines.py.
+
+The following sequence shows examples of pixels tagged by each of the filters and the resulting binary output.  This image is a 
+simple test case, and it may appear that some of the filters are unnecessary, but for more challenging images, I found it
+useful to use all of them.
 
 ![Filters and resulting binary output][filters]
 

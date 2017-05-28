@@ -46,6 +46,9 @@ def compute_distortion_coefs( nx=9, ny=6 ):
     return cv2.calibrateCamera( objpoints, imgpoints, gray.shape[::-1], None, None )
 
 # Apply filters to locate suspected lane line pixels.
+# I use a lightness filter, a saturation filter, a gradient magnitude filter, and a gradient angle filter.
+# The final binary output is produced by combining them as follows:
+# lightness filter & ( ( gradient mag filter & gradient angle filter ) | saturation filter ).
 def apply_filters( img, sobel_kernel=3, 
                    thresh_lgt=40, # Lightness threshold (filter out dark pixels in HLS color space)
                    thresh_ang=(0,np.pi/2), # Angle threshold for gradient (only accept gradients within the right angle range)
@@ -76,6 +79,31 @@ def apply_filters( img, sobel_kernel=3,
     L = hls[:,:,1]
     S = hls[:,:,2]
 
+    fig = plt.figure(figsize=(10,12))
+
+    plt.subplot(321)
+    plt.imshow(img)
+    plt.title('Undistorted image')
+
+    plt.subplot(322)
+    plt.imshow( ( L > thresh_lgt ), cmap='gray' )
+    plt.title('Lightness filter')
+
+    plt.subplot(323)
+    plt.imshow( ( scaled_mag >= thresh_mag[0] ) & 
+                     ( scaled_mag <= thresh_mag[1] ), cmap='gray' )
+    plt.title('Gradient magnitude filter')
+
+    plt.subplot(324)
+    plt.imshow( ( angles >= thresh_ang[0] ) &
+                ( angles <= thresh_ang[1] ), cmap='gray' )
+    plt.title('Gradient angle filter')
+
+    plt.subplot(325)
+    plt.imshow( ( S >  thresh_sat[0] ) &
+                ( S <= thresh_sat[1] ), cmap='gray')
+    plt.title('Saturation filter')
+
     # Create output image that will contain 1s for suspected lane line pixels and 0s elsewhere
     binary_output = np.zeros_like( scaled_mag )
     binary_output[ ( L > thresh_lgt ) &  # Apply lightness threshold filter
@@ -85,6 +113,13 @@ def apply_filters( img, sobel_kernel=3,
                      ( angles <= thresh_ang[1] ) ) |
                      ( ( S >  thresh_sat[0] ) & # Apply saturation filter
                      ( S <= thresh_sat[1] ) ) ) ] = 1
+
+    plt.subplot(326)
+    plt.imshow(binary_output,cmap='gray')
+    plt.title('Binary output (combined filters)')
+
+    plt.tight_layout()
+    plt.show()
 
     return scaled_mag, binary_output
 
