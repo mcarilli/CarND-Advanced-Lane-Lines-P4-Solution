@@ -103,11 +103,11 @@ def pipeline( img ):
     # plt.title('Filtered image post-warp')
 
     # For optional plotting use, create a set of points that trace
-    # the best-fit parabolas in pixel space.   I ended up not 
-    ploty = np.linspace(0, img.shape[0]-1, img.shape[0] )
+    # the best-fit parabolas in pixel space.  
+    # ploty = np.linspace(0, img.shape[0]-1, img.shape[0] )
     # x-coords of lane lines at bottom of image
-    left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
-    right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+    # left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+    # right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
 
     # plt.subplot(514)
     # plt.imshow(output)
@@ -130,23 +130,30 @@ def pipeline( img ):
     # Print radii of curvature on image
     font = cv2.FONT_HERSHEY_SIMPLEX
     cv2.putText( unwarped_lane_region, "Left radius of curvature = {:4.1f} m".format(rl),
-                 (200,100), font, 1.5, (255,255,255), 2, cv2.LINE_AA )
+                 (200,100), font, 1.2, (255,255,255), 2, cv2.LINE_AA )
     cv2.putText( unwarped_lane_region, "Right radius of curvature = {:4.1f} m".format(rr),
-                 (200,160), font, 1.5, (255,255,255), 2, cv2.LINE_AA )
+                 (200,160), font, 1.2, (255,255,255), 2, cv2.LINE_AA )
 
     # Compute pixel distance the car is off center by taking the average of the two 
     # lane line positions at the bottom of the image and subtracting that average
-    # from the midpoint pixel x-value, given by shape( unwarped_lane_region/2
+    # from the midpoint pixel x-value, given by unwarped_lane_region.shape[1]/2.
     # 
-    # x-coords of lane lines at bottom of image
-    leftx = left_fitx[-1]
-    rightx = right_fitx[-1]
-    distance_off_center_pixels = unwarped_lane_region.shape[1]/2. - (rightx+leftx)/2.
+    # y-coord at bottom of image in pixel space
+    ploty = img.shape[0]-1
+    # x-coords of lane lines at bottom of image in pixel space
+    leftx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+    rightx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+    distance_off_center_pixels = np.float64( unwarped_lane_region.shape[1] )/2. - (rightx+leftx)/2.
     xm_per_pix = 3.7/700 # meters per pixel in x dimension
+    # Convert from pixel space to world space
     distance_off_center_meters = xm_per_pix*distance_off_center_pixels
 
-    cv2.putText( unwarped_lane_region, "Distance off center = {:3.2f} m".format(distance_off_center_meters),
-                 (200,220), font, 1.5, (255,255,255), 2, cv2.LINE_AA )
+    if( distance_off_center_meters > 0 ):
+      cv2.putText( unwarped_lane_region, "Position = {:3.2f} m right of center".format(distance_off_center_meters),
+		   (200,220), font, 1.2, (255,255,255), 2, cv2.LINE_AA )
+    else:
+      cv2.putText( unwarped_lane_region, "Position = {:3.2f} m left of center".format(np.abs(distance_off_center_meters)),
+		   (200,220), font, 1.2, (255,255,255), 2, cv2.LINE_AA )
 
     # plt.imshow( unwarped_lane_region )
     # plt.show()
