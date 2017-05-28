@@ -144,14 +144,14 @@ Here is a [link to my video result](./project_output.mp4).
 The most challenging part of this project was implementing a filter that reliably detected lane line pixels in varying lighting/background
 conditions for both yellow and white lane lines.  I had to play with a number of different filters before I got something satisfactory.
 In the end, a combination of saturation, lightness, gradient magnitude, and gradient direction gave reliable detection of lane lines 
-on the road regions of the image.  See apply_filters() at line 49 of functions.py for details on my final filter choices.
+on the road regions of the image.  See apply_filters() at line 49 of functions.py for details of my final filter choices.
 
 My pipeline tends to fail at longer distances 
 when the curvature of the road is too extreme, as can be seen in my video.  At times when the road curves
 most sharply, it can be seen that near the faraway end of the highlighted region, the highlighted region loses track of one of the lanes.
 This is because when the road curves too far outside the trapezoidal source region used for the perspective transform, the pixels that
 veer too far from the trapezoidal region are warped out of the transformed image, and end up not being used in the convolution
-search or polynomial fit.  This could be alleviated by using a slightly less aggressive perspective transform (a wider trapezoidal
+search or polynomial fit.  This could be alleviated by using a less aggressive perspective transform (a wider trapezoidal
 source region that gives the road more room to curve).
 
 For the project video this loss of faraway lane line pixels due to warping is not a major issue, but it would be exacerbated 
