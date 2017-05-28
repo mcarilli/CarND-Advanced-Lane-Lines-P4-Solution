@@ -27,8 +27,6 @@ The goals / steps of this project are the following:
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
-
 ---
 
 ### Camera Calibration
@@ -38,7 +36,7 @@ The goals / steps of this project are the following:
 The code for this step is found in compute_distortion_coefs() at line 11 of functions.py, and called at line 12 of findlines.py.
 
 I calibrated the camera by using a set of provided images taken with the the camera.  The images are pictures of chessboards.
-For each image, I used cv2.findChessboardCorners to locate the corners of squares (intersections between white and black squares),
+For each image, I used cv2.findChessboardCorners() to locate the corners of squares (intersections between white and black squares),
  and appended the locations of these corners to an array "imgpoints."  For each image where corners were successfully found,
 I also appended "objpoints" to another array.  Objpoints represents a set of regularly spaced locations where the corners should lie if
 the image is dead center with a certain scaling.  By comparing the "objpoints" and "imgpoints" arrays, cv2.drawChessboardCorners()
@@ -69,6 +67,7 @@ I used cv2.getPerspectiveTransform() to find the transformation matrix at line 5
 findlines.py, then applied the transformation using cv2.warpPerspective() at line 61.
 
 I used the following hardcoded source and destination points:
+
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
 | [1121, 720]   | [1121, 720] 
