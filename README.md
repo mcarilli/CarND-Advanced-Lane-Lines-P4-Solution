@@ -77,7 +77,7 @@ I used the following hardcoded source and destination points:
 
 This resulted in straight lane lines becoming approximately vertical in the transformed image.
 
-An example of pre- and post-warp frames can be found in the image sequence below, which gives an end-to-end overview of my pipeline.
+An example of pre- and post-warp frames can be found in the image sequence after point 6. below.
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
@@ -94,15 +94,15 @@ I used a convolution width of 150 because near the top of the image, the perspec
 warp regions of suspected lane line pixels to 100+ pixels across.  Using this (generous) width did not incur significant risk 
 of false detections, because my gradient and color filters applied earlier did a good job of filtering for lane line pixels alone.
 
-I also implemented code to optionally skip the sliding window step if a set of best-fit polynomials for each lane line already existed,
+I also implemented code to optionally skip the convolution step if a set of best-fit polynomials for each lane line already existed,
 and simply tag lane line pixels within a certain width around each existing polynomial (then fit new polynomials to the new pixels).
 However, I ended up not using this functionality in my final pipeline, since the pipeline worked on the first try 
-using sliding windows alone.
+using convolutions alone.
 
-Once the left and right lane line pixels were identified using sliding windows, the locations of the pixels found within those windows
+Once the left and right lane line pixels were identified using convolutions, the locations of the pixels found within those windows
 were used to fit two quadratic polynomials, one each for the left and right lanes.
 
-An example of the lane line regions identified by sliding windows for a warped+filtered image, along with the corresponding
+An example of the lane line regions identified by convolutions for a warped+filtered image, along with the corresponding
 quadratic fits, can be seen in the image sequence below.
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
@@ -133,7 +133,7 @@ The following sequence of images shows the operation of my pipeline from the fil
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here is a [link to my video result](./project_video.mp4)
+Here is a [link to my video result](./project_output.mp4).
 
 ---
 
