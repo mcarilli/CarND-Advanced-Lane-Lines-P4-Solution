@@ -137,7 +137,9 @@ The following sequence of images shows the operation of my pipeline from the fil
 
 ![Pipeline][pipeline]
 
-Here is an example of my pipeline's operation on a more challenging test image:
+Here is an example of my pipeline's operation on a more challenging test image.  It looks just as good as the example shown 
+on the project submission page, except for a small wedge at the top right corner of the highlighted region where the lane 
+is not properly tracked.  This failure will be explained in the Discussion below.
 
 ![More challenging test image][testimage]
 
