@@ -24,6 +24,7 @@ The goals / steps of this project are the following:
 [dist_and_undist]: ./output_images/dist_and_undist.png "Distorted and undistorted images"
 [filters]: ./output_images/filters.png "Filters"
 [pipeline]: ./output_images/pipeline.png "Pipeline"
+[testimage]: ./output_images/testimage.png "More challenging test image"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -135,6 +136,8 @@ of functions.py.  Within the pipeline, draw_unwarped_lane_region() is invoked at
 The following sequence of images shows the operation of my pipeline from the filtered image to drawing the final frame.
 
 ![Pipeline][pipeline]
+
+Here is an example of my pipeline's operation on a more challenging test image:
 
 ---
 

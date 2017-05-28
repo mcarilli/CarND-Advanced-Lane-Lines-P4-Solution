@@ -15,7 +15,7 @@ ret, mtx, dist, rvecs, tvecs  = fn.compute_distortion_coefs()
 # function later
 def pipeline( img ):
     # for i in range(1,7):
-    # filename = "test_images/test" + str(i) + ".jpg"
+    # filename = "test_images/test" + str(5) + ".jpg"
 
     # print( filename )
 
